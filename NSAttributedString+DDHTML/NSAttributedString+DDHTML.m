@@ -215,8 +215,9 @@
         }
         
         // Stoke Tag
-        else if (strncmp("stroke", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
-            UIColor *strokeColor = [UIColor purpleColor];
+        else if (strncmp("stroke", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
+                 strncmp("blink", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+            UIColor *strokeColor = [UIColor magentaColor];
             NSNumber *strokeWidth = @(1.0);
             
             if (attributeDictionary[@"color"]) {
