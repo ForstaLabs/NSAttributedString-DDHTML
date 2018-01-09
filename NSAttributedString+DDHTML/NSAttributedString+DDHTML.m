@@ -147,13 +147,13 @@
         else if (strncmp("mark", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             [nodeAttributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:nodeAttributedStringRange];
         }
-
+        
         // h5 tag
         else if (strncmp("h5", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             UIFont *headingFont = [boldFont fontWithSize:(boldFont.pointSize+3.0)];
             [nodeAttributedString addAttribute:NSFontAttributeName value:headingFont range:nodeAttributedStringRange];
         }
-
+        
         // h3 tag
         else if (strncmp("h3", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             UIFont *headingFont = [boldFont fontWithSize:(boldFont.pointSize+6.0)];
@@ -174,18 +174,18 @@
         else if (strncmp("sub", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             [nodeAttributedString addAttribute:(NSString*)kCTSuperscriptAttributeName value:@"-1" range:nodeAttributedStringRange];
         }
-
-
+        
+        
         // Code/Samp tags
         if (strncmp("code", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
             strncmp("samp", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             if (fixedFont) {
-                UIColor *backgroundColorRef = [UIColor colorWithRed:236.0f/255.0f green:222.0f/255.0f blue:180.0f/255.0f alpha:1.0f];
+                UIColor *backgroundColor = [UIColor colorWithRed:236.0f/255.0f green:222.0f/255.0f blue:180.0f/255.0f alpha:0.5f];
                 [nodeAttributedString addAttribute:NSFontAttributeName value:fixedFont range:nodeAttributedStringRange];
-                [nodeAttributedString addAttribute:NSBackgroundColorAttributeName value:backgroundColorRef range:nodeAttributedStringRange];
+                [nodeAttributedString addAttribute:NSBackgroundColorAttributeName value:backgroundColor range:nodeAttributedStringRange];
             }
         }
-
+        
         // Bold Tag
         if (strncmp("b", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
             strncmp("strong", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
@@ -210,7 +210,7 @@
         // Stike Tag
         else if (strncmp("strike", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
                  strncmp("del", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-                   strncmp("s", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+                 strncmp("s", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             [nodeAttributedString addAttribute:NSStrikethroughStyleAttributeName value:@(YES) range:nodeAttributedStringRange];
         }
         
@@ -236,24 +236,24 @@
         
         // Shadow Tag
         else if (strncmp("shadow", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
-            #if __has_include(<UIKit/NSShadow.h>)
-                NSShadow *shadow = [[NSShadow alloc] init];
-                shadow.shadowOffset = CGSizeMake(0, 0);
-                shadow.shadowBlurRadius = 2.0;
-                shadow.shadowColor = [UIColor blackColor];
-                
-                if (attributeDictionary[@"offset"]) {
-                    shadow.shadowOffset = CGSizeFromString(attributeDictionary[@"offset"]);
-                }
-                if (attributeDictionary[@"blurradius"]) {
-                    shadow.shadowBlurRadius = [attributeDictionary[@"blurradius"] doubleValue];
-                }
-                if (attributeDictionary[@"color"]) {
-                    shadow.shadowColor = [self colorFromHexString:attributeDictionary[@"color"]];
-                }
+#if __has_include(<UIKit/NSShadow.h>)
+            NSShadow *shadow = [[NSShadow alloc] init];
+            shadow.shadowOffset = CGSizeMake(0, 0);
+            shadow.shadowBlurRadius = 2.0;
+            shadow.shadowColor = [UIColor blackColor];
             
-                [nodeAttributedString addAttribute:NSShadowAttributeName value:shadow range:nodeAttributedStringRange];
-            #endif
+            if (attributeDictionary[@"offset"]) {
+                shadow.shadowOffset = CGSizeFromString(attributeDictionary[@"offset"]);
+            }
+            if (attributeDictionary[@"blurradius"]) {
+                shadow.shadowBlurRadius = [attributeDictionary[@"blurradius"] doubleValue];
+            }
+            if (attributeDictionary[@"color"]) {
+                shadow.shadowColor = [self colorFromHexString:attributeDictionary[@"color"]];
+            }
+            
+            [nodeAttributedString addAttribute:NSShadowAttributeName value:shadow range:nodeAttributedStringRange];
+#endif
         }
         
         // Font Tag
@@ -275,7 +275,7 @@
             if (attributeDictionary[@"backgroundcolor"]) {
                 backgroundColor = [self colorFromHexString:attributeDictionary[@"backgroundcolor"]];
             }
-    
+            
             if (fontName == nil && fontSize != nil) {
                 [nodeAttributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:[fontSize doubleValue]] range:nodeAttributedStringRange];
             }
@@ -285,7 +285,7 @@
             else if (fontName != nil && fontSize != nil) {
                 [nodeAttributedString addAttribute:NSFontAttributeName value:[self fontOrSystemFontForName:fontName size:fontSize.floatValue] range:nodeAttributedStringRange];
             }
-    
+            
             if (foregroundColor) {
                 [nodeAttributedString addAttribute:NSForegroundColorAttributeName value:foregroundColor range:nodeAttributedStringRange];
             }
@@ -297,7 +297,7 @@
         // Paragraph Tag
         else if (strncmp("p", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-
+            
             if ([attributeDictionary objectForKey:@"align"]) {
                 NSString *alignString = [attributeDictionary[@"align"] lowercaseString];
                 
@@ -369,12 +369,12 @@
             }
             
             [nodeAttributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:nodeAttributedStringRange];
-			
-			// MR - For some reason they are not adding the paragraph space when parsing the <p> tag
-			[nodeAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+            
+            // MR - For some reason they are not adding the paragraph space when parsing the <p> tag
+            [nodeAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
-
-
+        
+        
         // Links
         else if (strncmp("a href", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             
@@ -394,28 +394,28 @@
         
         // Images
         else if (strncmp("img", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
-            #if __has_include(<UIKit/NSTextAttachment.h>)
-                NSString *src = attributeDictionary[@"src"];
-                NSString *width = attributeDictionary[@"width"];
-                NSString *height = attributeDictionary[@"height"];
-        
-                if (src != nil) {
-                    UIImage *image = imageMap[src];
-                    if (image == nil) {
-                        image = [UIImage imageNamed:src];
-                    }
-                    
-                    if (image != nil) {
-                        NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
-                        imageAttachment.image = image;
-                        if (width != nil && height != nil) {
-                            imageAttachment.bounds = CGRectMake(0, 0, [width integerValue] / 2, [height integerValue] / 2);
-                        }
-                        NSAttributedString *imageAttributeString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-                        [nodeAttributedString appendAttributedString:imageAttributeString];
-                    }
+#if __has_include(<UIKit/NSTextAttachment.h>)
+            NSString *src = attributeDictionary[@"src"];
+            NSString *width = attributeDictionary[@"width"];
+            NSString *height = attributeDictionary[@"height"];
+            
+            if (src != nil) {
+                UIImage *image = imageMap[src];
+                if (image == nil) {
+                    image = [UIImage imageNamed:src];
                 }
-            #endif
+                
+                if (image != nil) {
+                    NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
+                    imageAttachment.image = image;
+                    if (width != nil && height != nil) {
+                        imageAttachment.bounds = CGRectMake(0, 0, [width integerValue] / 2, [height integerValue] / 2);
+                    }
+                    NSAttributedString *imageAttributeString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+                    [nodeAttributedString appendAttributedString:imageAttributeString];
+                }
+            }
+#endif
         }
     }
     
@@ -438,8 +438,9 @@
     hexString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
     char *p;
     NSUInteger hexValue = strtoul([hexString cStringUsingEncoding:NSUTF8StringEncoding], &p, 16);
-
+    
     return [UIColor colorWithRed:((hexValue & 0xff0000) >> 16) / 255.0 green:((hexValue & 0xff00) >> 8) / 255.0 blue:(hexValue & 0xff) / 255.0 alpha:1.0];
 }
 
 @end
+
