@@ -144,41 +144,40 @@
         }
         
         // Mark tag
-        else if (strncmp("mark", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("mark", (const char *)xmlNode->name) == 0) {
             [nodeAttributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:nodeAttributedStringRange];
         }
         
         // h5 tag
-        else if (strncmp("h5", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("h5", (const char *)xmlNode->name) == 0) {
             UIFont *headingFont = [boldFont fontWithSize:(boldFont.pointSize+3.0)];
             [nodeAttributedString addAttribute:NSFontAttributeName value:headingFont range:nodeAttributedStringRange];
         }
         
         // h3 tag
-        else if (strncmp("h3", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("h3", (const char *)xmlNode->name) == 0) {
             UIFont *headingFont = [boldFont fontWithSize:(boldFont.pointSize+6.0)];
             [nodeAttributedString addAttribute:NSFontAttributeName value:headingFont range:nodeAttributedStringRange];
         }
         // h1 tag
-        else if (strncmp("h1", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("h1", (const char *)xmlNode->name) == 0) {
             UIFont *headingFont = [boldFont fontWithSize:(boldFont.pointSize+9.0)];
             [nodeAttributedString addAttribute:NSFontAttributeName value:headingFont range:nodeAttributedStringRange];
         }
         
         // Superscript tag
-        else if (strncmp("sup", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
-            [nodeAttributedString addAttribute:(NSString*)kCTSuperscriptAttributeName value:@"1" range:nodeAttributedStringRange];
+        else if (strcmp("sup", (const char *)xmlNode->name) == 0) {
+            [nodeAttributedString addAttribute:(NSString*)kCTSuperscriptAttributeName value:@(1) range:nodeAttributedStringRange];
         }
-        
+
         // Subscript tag
-        else if (strncmp("sub", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
-            [nodeAttributedString addAttribute:(NSString*)kCTSuperscriptAttributeName value:@"-1" range:nodeAttributedStringRange];
+        else if (strcmp("sub", (const char *)xmlNode->name) == 0) {
+            [nodeAttributedString addAttribute:(NSString*)kCTSuperscriptAttributeName value:@(-1) range:nodeAttributedStringRange];
         }
-        
         
         // Code/Samp tags
-        if (strncmp("code", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-            strncmp("samp", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("code", (const char *)xmlNode->name) == 0 ||
+            strcmp("samp", (const char *)xmlNode->name) == 0) {
             if (fixedFont) {
                 UIColor *backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:177.0f/255.0f blue:157.0f/255.0f alpha:1.0f];
                 [nodeAttributedString addAttribute:NSFontAttributeName value:fixedFont range:nodeAttributedStringRange];
@@ -187,36 +186,36 @@
         }
         
         // Bold Tag
-        if (strncmp("b", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-            strncmp("strong", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("b", (const char *)xmlNode->name) == 0 ||
+            strcmp("strong", (const char *)xmlNode->name) == 0) {
             if (boldFont) {
                 [nodeAttributedString addAttribute:NSFontAttributeName value:boldFont range:nodeAttributedStringRange];
             }
         }
         
         // Italic Tag
-        else if (strncmp("i", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-                 strncmp("em", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("i", (const char *)xmlNode->name) == 0 ||
+                 strcmp("em", (const char *)xmlNode->name) == 0) {
             if (italicFont) {
                 [nodeAttributedString addAttribute:NSFontAttributeName value:italicFont range:nodeAttributedStringRange];
             }
         }
         
         // Underline Tag
-        else if (strncmp("u", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("u", (const char *)xmlNode->name) == 0) {
             [nodeAttributedString addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:nodeAttributedStringRange];
         }
         
         // Stike Tag
-        else if (strncmp("strike", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-                 strncmp("del", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-                 strncmp("s", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("strike", (const char *)xmlNode->name) == 0 ||
+                 strcmp("del", (const char *)xmlNode->name) == 0 ||
+                 strcmp("s", (const char *)xmlNode->name) == 0) {
             [nodeAttributedString addAttribute:NSStrikethroughStyleAttributeName value:@(YES) range:nodeAttributedStringRange];
         }
         
         // Stroke Tag
-        else if (strncmp("stroke", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
-                 strncmp("blink", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("stroke", (const char *)xmlNode->name) == 0 ||
+                 strcmp("blink", (const char *)xmlNode->name) == 0) {
             UIColor *strokeColor = [UIColor magentaColor];
             NSNumber *strokeWidth = @(1.0);
             
@@ -235,7 +234,7 @@
         }
         
         // Shadow Tag
-        else if (strncmp("shadow", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("shadow", (const char *)xmlNode->name) == 0) {
 #if __has_include(<UIKit/NSShadow.h>)
             NSShadow *shadow = [[NSShadow alloc] init];
             shadow.shadowOffset = CGSizeMake(0, 0);
@@ -257,7 +256,7 @@
         }
         
         // Font Tag
-        else if (strncmp("font", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("font", (const char *)xmlNode->name) == 0) {
             NSString *fontName = nil;
             NSNumber *fontSize = nil;
             UIColor *foregroundColor = nil;
@@ -295,7 +294,7 @@
         }
         
         // Paragraph Tag
-        else if (strncmp("p", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("p", (const char *)xmlNode->name) == 0) {
             NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
             
             if ([attributeDictionary objectForKey:@"align"]) {
@@ -376,7 +375,7 @@
         
         
         // Links
-        else if (strncmp("a href", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("a href", (const char *)xmlNode->name) == 0) {
             
             xmlChar *value = xmlNodeListGetString(xmlNode->doc, xmlNode->xmlChildrenNode, 1);
             if (value)
@@ -388,12 +387,12 @@
         }
         
         // New Lines
-        else if (strncmp("br", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("br", (const char *)xmlNode->name) == 0) {
             [nodeAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
         }
         
         // Images
-        else if (strncmp("img", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
+        else if (strcmp("img", (const char *)xmlNode->name) == 0) {
 #if __has_include(<UIKit/NSTextAttachment.h>)
             NSString *src = attributeDictionary[@"src"];
             NSString *width = attributeDictionary[@"width"];
