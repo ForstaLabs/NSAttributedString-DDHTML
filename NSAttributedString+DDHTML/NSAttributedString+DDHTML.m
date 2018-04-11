@@ -180,7 +180,7 @@
         if (strncmp("code", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
             strncmp("samp", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             if (fixedFont) {
-                UIColor *backgroundColor = [UIColor colorWithRed:236.0f/255.0f green:222.0f/255.0f blue:180.0f/255.0f alpha:0.5f];
+                UIColor *backgroundColor = [UIColor colorWithRed:190.0f/255.0f green:177.0f/255.0f blue:157.0f/255.0f alpha:1.0f];
                 [nodeAttributedString addAttribute:NSFontAttributeName value:fixedFont range:nodeAttributedStringRange];
                 [nodeAttributedString addAttribute:NSBackgroundColorAttributeName value:backgroundColor range:nodeAttributedStringRange];
             }
@@ -214,7 +214,7 @@
             [nodeAttributedString addAttribute:NSStrikethroughStyleAttributeName value:@(YES) range:nodeAttributedStringRange];
         }
         
-        // Stoke Tag
+        // Stroke Tag
         else if (strncmp("stroke", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0 ||
                  strncmp("blink", (const char *)xmlNode->name, strlen((const char *)xmlNode->name)) == 0) {
             UIColor *strokeColor = [UIColor magentaColor];
@@ -443,4 +443,3 @@
 }
 
 @end
-
